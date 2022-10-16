@@ -37,6 +37,10 @@ func (s *Service) UpdateUser(id int, user *entity.User) (*entity.User, error) {
 	return s.db.GetUserById(id)
 }
 
+func (s *Service) GetUser(id int) (*entity.User, error) {
+	return s.db.GetUserById(id)
+}
+
 func (s *Service) DeleteUser(id int) error {
 	return s.db.DeleteUser(id)
 }

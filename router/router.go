@@ -21,5 +21,11 @@ func StartServer(c controller.Controller) error {
 	user.PUT("/:userId", middleware.Authentication(), c.UpdateUser)
 	user.DELETE("/:userId", middleware.Authentication(), c.DeleteUser)
 
+	photo := router.Group("/photos").Use(middleware.Authentication())
+	photo.POST("", c.PostPhoto)
+	photo.GET("", c.GetPhotos)
+	photo.PUT("/:photoId", c.UpdatePhoto)
+	photo.DELETE("/:photoId", c.DeletePhoto)
+
 	return router.Run(server)
 }
