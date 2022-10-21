@@ -25,7 +25,7 @@ func Start() (Database, error) {
 		return Database{}, err
 	}
 
-	err = db.Debug().AutoMigrate(&entity.User{}, &entity.Photo{}, &entity.Comment{})
+	err = db.Debug().AutoMigrate(&entity.User{}, &entity.Photo{}, &entity.Comment{}, &entity.SocialMedia{})
 	if err != nil {
 		fmt.Println("error on migration", err)
 		return Database{}, err

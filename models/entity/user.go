@@ -3,13 +3,14 @@ package entity
 import "time"
 
 type User struct {
-	ID        int    `gorm:"primaryKey"`
-	Username  string `gorm:"type:varchar;unique;not null"`
-	Email     string `gorm:"type:varchar;unique;not null"`
-	Password  string `gorm:"not null"`
-	Age       int    `gorm:"not null"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	Photos    []Photo   `gorm:"constraint:onDelete:CASCADE"`
-	Comments  []Comment `gorm:"constraint:onDelete:CASCADE"`
+	ID          int    `gorm:"primaryKey"`
+	Username    string `gorm:"type:varchar;unique;not null"`
+	Email       string `gorm:"type:varchar;unique;not null"`
+	Password    string `gorm:"not null"`
+	Age         int    `gorm:"not null"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	Photos      []Photo       `gorm:"constraint:onDelete:CASCADE"`
+	Comments    []Comment     `gorm:"constraint:onDelete:CASCADE"`
+	SocialMedia []SocialMedia `gorm:"constraint:onDelete:CASCADE"`
 }

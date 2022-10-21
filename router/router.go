@@ -32,5 +32,12 @@ func StartServer(c controller.Controller) error {
 	comment.GET("", c.GetComments)
 	comment.PUT("/:commentId", c.UpdateComment)
 	comment.DELETE("/:commentId", c.DeleteComment)
+
+	socialMedia := router.Group("/socialmedias").Use(middleware.Authentication())
+	socialMedia.POST("", c.PostSocialMedia)
+	socialMedia.GET("", c.GetSocialMedia)
+	socialMedia.PUT("/:socialMediaId", c.UpdateSocialMedia)
+	socialMedia.DELETE("/:socialMediaId", c.DeleteSocialMedia)
+
 	return router.Run(server)
 }
