@@ -1,13 +1,13 @@
 package controller
 
 import (
+	"mygram-api/helper"
 	"mygram-api/models/entity"
 	"mygram-api/models/request"
 	"mygram-api/models/response"
 	"net/http"
 	"strconv"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 )
@@ -24,12 +24,7 @@ func (c *Controller) PostComment(ctx *gin.Context) {
 		return
 	}
 
-	_, err := govalidator.ValidateStruct(req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": err.Error(),
-		})
+	if err := helper.ValidateRequest(req, ctx); err != nil {
 		return
 	}
 
@@ -131,12 +126,7 @@ func (c *Controller) UpdateComment(ctx *gin.Context) {
 		return
 	}
 
-	_, err = govalidator.ValidateStruct(req)
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": err.Error(),
-		})
+	if err := helper.ValidateRequest(req, ctx); err != nil {
 		return
 	}
 
