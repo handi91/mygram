@@ -18,8 +18,8 @@ func StartServer(c controller.Controller) error {
 	user := router.Group("/users")
 	user.POST("/register", c.RegisterUser)
 	user.POST("/login", c.LoginUser)
-	user.PUT("/:userId", middleware.Authentication(), c.UpdateUser)
-	user.DELETE("/:userId", middleware.Authentication(), c.DeleteUser)
+	user.PUT("", middleware.Authentication(), c.UpdateUser)
+	user.DELETE("", middleware.Authentication(), c.DeleteUser)
 
 	photo := router.Group("/photos").Use(middleware.Authentication())
 	photo.POST("", c.PostPhoto)
@@ -27,5 +27,10 @@ func StartServer(c controller.Controller) error {
 	photo.PUT("/:photoId", c.UpdatePhoto)
 	photo.DELETE("/:photoId", c.DeletePhoto)
 
+	comment := router.Group("/comments").Use(middleware.Authentication())
+	comment.POST("", c.PostComment)
+	comment.GET("", c.GetComments)
+	comment.PUT("/:commentId", c.UpdateComment)
+	comment.DELETE("/:commentId", c.DeleteComment)
 	return router.Run(server)
 }

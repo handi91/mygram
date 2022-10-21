@@ -24,11 +24,21 @@ func (d *Database) GetAllPhoto() ([]entity.Photo, error) {
 	return photos, nil
 }
 
-func (d *Database) GetUserID(id int) (int, error) {
+func (d *Database) GetPhotoUserID(id int) (int, error) {
 	var userId int
 	err := d.db.Model(&entity.Photo{}).Select("user_id").Where("id", id).First(&userId).Error
 
 	return userId, err
+}
+
+func (d *Database) GetPhotoById(id int) (*entity.Photo, error) {
+	var photo entity.Photo
+	err := d.db.First(&photo, "id", id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &photo, nil
 }
 
 func (d *Database) UpdatePhoto(id int, photo *entity.Photo) (*entity.Photo, error) {

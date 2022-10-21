@@ -10,5 +10,6 @@ type User struct {
 	Age       int    `gorm:"not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	Photos    []Photo `gorm:"constraint:onDelete:CASCADE"`
+	Photos    []Photo   `gorm:"constraint:onDelete:CASCADE"`
+	Comments  []Comment `gorm:"constraint:onDelete:CASCADE"`
 }

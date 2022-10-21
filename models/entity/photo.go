@@ -10,4 +10,5 @@ type Photo struct {
 	UserID    int
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Comments  []Comment `gorm:"constraint:onDelete:CASCADE"`
 }

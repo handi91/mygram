@@ -6,11 +6,11 @@ import (
 	"mygram-api/models/request"
 	"mygram-api/models/response"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
 
 func (c *Controller) RegisterUser(ctx *gin.Context) {
@@ -119,14 +119,8 @@ func (c *Controller) LoginUser(ctx *gin.Context) {
 }
 
 func (c *Controller) UpdateUser(ctx *gin.Context) {
-	userId, err := strconv.Atoi(ctx.Param("userId"))
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": "Invalid param user id",
-		})
-		return
-	}
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userId := int(userData["id"].(float64))
 
 	var req request.UpdateUser
 	if err := ctx.ShouldBindJSON(&req); err != nil {
@@ -137,7 +131,7 @@ func (c *Controller) UpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	_, err = govalidator.ValidateStruct(req)
+	_, err := govalidator.ValidateStruct(req)
 	if err != nil {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"code":    400,
@@ -193,16 +187,10 @@ func (c *Controller) UpdateUser(ctx *gin.Context) {
 }
 
 func (c *Controller) DeleteUser(ctx *gin.Context) {
-	userId, err := strconv.Atoi(ctx.Param("userId"))
-	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-			"code":    400,
-			"message": "Invalid param user id",
-		})
-		return
-	}
+	userData := ctx.MustGet("userData").(jwt.MapClaims)
+	userId := int(userData["id"].(float64))
 
-	err = c.service.DeleteUser(userId)
+	err := c.service.DeleteUser(userId)
 	if err != nil {
 		msg := err.Error()
 		if msg == "user not found" {

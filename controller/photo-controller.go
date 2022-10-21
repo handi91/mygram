@@ -70,8 +70,10 @@ func (c *Controller) GetPhotos(ctx *gin.Context) {
 	var res = make([]response.GetPhoto, 0)
 	for _, p := range result {
 		user, err := c.service.GetUser(p.UserID)
-		if err != nil {
-			continue
+		var photoUser response.PhotoUser
+		if err == nil {
+			photoUser.Email = user.Email
+			photoUser.Username = user.Username
 		}
 		res = append(res, response.GetPhoto{
 			ID:        p.ID,
@@ -81,10 +83,7 @@ func (c *Controller) GetPhotos(ctx *gin.Context) {
 			PhotoUrl:  p.PhotoUrl,
 			CreatedAt: p.CreatedAt,
 			UpdatedAt: p.UpdatedAt,
-			User: response.PhotoUser{
-				Email:    user.Email,
-				Username: user.Username,
-			},
+			User:      photoUser,
 		},
 		)
 	}
@@ -139,7 +138,7 @@ func (c *Controller) UpdatePhoto(ctx *gin.Context) {
 			return
 		}
 
-		if msg == "can't modify not your own photo" {
+		if msg == "can't modify not your photo" {
 			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 				"code":    403,
 				"message": msg,
@@ -187,7 +186,7 @@ func (c *Controller) DeletePhoto(ctx *gin.Context) {
 			return
 		}
 
-		if msg == "can't delete not your own photo" {
+		if msg == "can't delete not your photo" {
 			ctx.AbortWithStatusJSON(http.StatusForbidden, gin.H{
 				"code":    403,
 				"message": msg,
