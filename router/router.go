@@ -1,8 +1,8 @@
 package router
 
 import (
-// 	"fmt"
-// 	"mygram-api/config"
+	"fmt"
+	"mygram-api/config"
 	"mygram-api/controller"
 	"mygram-api/middleware"
 
@@ -10,9 +10,8 @@ import (
 )
 
 func StartServer(c controller.Controller) error {
-// 	port := config.GetServerPortEnv()
-// 	server := fmt.Sprintf("localhost:%s", port)
-	server := "mygram-production-55c7.up.railway.app"
+	port := config.GetServerPortEnv()
+	server := fmt.Sprintf("mygram-production-55c7.up.railway.app:%s", port)
 
 	router := gin.Default()
 
