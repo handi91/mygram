@@ -10,7 +10,7 @@ import (
 )
 
 func StartServer(c controller.Controller) error {
-	port := config.GetServerPortEnv()
+// 	port := config.GetServerPortEnv()
 // 	server := fmt.Sprintf("localhost:%s", port)
 	server := "mygram-production-55c7.up.railway.app"
 
